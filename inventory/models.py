@@ -6,7 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     quantity = models.PositiveIntegerField(null=True)
-    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
+    # purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self) -> str:
@@ -24,4 +24,3 @@ class Item(models.Model):
     
     def __str__(self) -> str:
         return f"{self.product} - Serial Number: {self.serial_number}"
-
