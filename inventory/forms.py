@@ -1,46 +1,19 @@
-# from django import forms
-# from .models import *
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import *
 
-# class ProductForm(forms.ModelForm):
-#     class Meta:
-#         model = Product
-#         fields = ["name", "description", "quantity", "purchase_price", "sale_price"]
+class UserRegistery(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "firstname", "lastname", "password1", "password2"]
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "description", "category", "price", "quantity"]
         
 # class ItemForm(forms.ModelForm):
 #     class Meta:
 #         model = Item
 #         fields = ["product"]
-
-
-# inventory/forms.py
-from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from inventory.models import Product, Order
-
-
-class UserRegistry(UserCreationForm):
-    email = forms.EmailField()
-
-    class Meta:
-        model = User
-        fields = [
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "password1",
-            "password2",
-        ]
-
-
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = ["name", "category", "quantity", "description"]
-
-
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order
-        fields = ["product", "order_quantity"]
