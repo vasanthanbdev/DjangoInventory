@@ -14,6 +14,7 @@ class Product(models.Model):
     category = models.CharField(max_length=100, choices=CATEGORY, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     quantity = models.PositiveIntegerField(null=True)
+    reorder_level = models.PositiveIntegerField(default=10)
     
     def __str__(self) -> str:
         return self.name
@@ -25,7 +26,7 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         if not self.serial_number:
             # Generate a unique serial number (e.g., using UUID)
-            self.serial_number = str(uuid.uuid4())
+            self.serial_number = str(uuid.uuid4().hex[:12].upper())
         super(Item, self).save(*args, **kwargs)
     
     def __str__(self) -> str:
