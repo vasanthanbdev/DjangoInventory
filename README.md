@@ -4,6 +4,7 @@ An Inventory Management Application built using Python Django
 ## Features
 - stock tracking & stock alerts
 - warehouse management
+- packages
 - users
 - vendors
 - customers
