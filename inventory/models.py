@@ -156,3 +156,4 @@ class Invoice(models.Model):
     PurchaseOrder = models.ForeignKey(PurchaseOrder)
     invoice_date = models.DateField(auto_now_add=True)
     due_date = models.DateField(auto_now_add=True)
+    
