@@ -1,7 +1,14 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from .views import *
 
 urlpatterns = [
-    path("register_user/", views.register_user, name="register_user"),
-    path("logout_user/", views.logout_user, name="logout_user"),
+    path("register_user/", register_user, name="register_user"),
+    path("login_user/", login_user, name="login_user"),
+    path("logout_user/", logout_user, name="logout_user"),
 ]
+
+# app_name = 'users'
+
+# urlpatterns = [
+#     path('users/', include((urlpatterns, app_name), namespace=app_name))
+# ]
