@@ -16,14 +16,8 @@ class Product(models.Model):
         return self.name
     
 class Item(models.Model):
-    serial_number = models.CharField(max_length=50, unique=True)
+    serial_number = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        if not self.serial_number:
-            # Generate a unique serial number (e.g., using UUID)
-            self.serial_number = str(uuid.uuid4().hex[:12].upper())
-        super(Item, self).save(*args, **kwargs)
     
     def __str__(self) -> str:
         return f"{self.product} - Serial Number: {self.serial_number}"

@@ -1,215 +1,187 @@
-from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 from .forms import *
 from .models import *
 
 
 # Product views
-@login_required
+@method_decorator(login_required, name='dispatch')
 class ProductListView(ListView):
     model = Product
     template_name = 'product_list.html'
     context_object_name = 'products'
-
-@login_required
-def create_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')  
-    else:
-        form = ProductForm()
     
-    context = {'form': form}
-    return render(request, 'create_product.html', context)
+@method_decorator(login_required, name='dispatch')
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'create_product.html'
+    success_url = reverse_lazy('product_list')
+    
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 # warehouse
-@login_required
+@method_decorator(login_required, name='dispatch')
 class WarehouseListView(ListView):
     model = Warehouse
     template_name = 'warehouse_list.html'
     context_object_name = 'warehouses'
 
-@login_required
-def create_warehouse(request):
-    if request.method == 'POST':
-        form = WarehouseForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('warehouse_list')  
-    else:
-        form = WarehouseForm()
-    
-    context = {'form': form}
-    return render(request, 'create_warehouse.html', context)
+@method_decorator(login_required, name='dispatch')
+class WarehouseCreateView(CreateView):
+    model = Warehouse
+    form_class = WarehouseForm
+    template_name = 'create_warehouse.html'
+    success_url = reverse_lazy('warehouse_list')
 
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
 
 #vendors
-@login_required
+@method_decorator(login_required, name='dispatch')
 class VendorListView(ListView):
     model = Vendor
     template_name = 'vendor_list.html'
     context_object_name = 'vendors'
 
-@login_required
-def create_vendor(request):
-    if request.method == 'POST':
-        form = VendorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('vendor_list')  
-    else:
-        form = VendorForm()
-    
-    context = {'form': form}
-    return render(request, 'create_vendor.html', context)
+@method_decorator(login_required, name='dispatch')
+class VendorCreateView(CreateView):
+    model = Vendor
+    form_class = VendorForm
+    template_name = 'create_vendor.html'
+    success_url = reverse_lazy('vendor_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #customer
-@login_required
+@method_decorator(login_required, name='dispatch')
 class CustomerListView(ListView):
     model = Customer
     template_name = 'customer_list.html'
     context_object_name = 'customer'
     
-@login_required
-def create_customer(request):
-    if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('customer_list')  
-    else:
-        form = CustomerForm()
-    
-    context = {'form': form}
-    return render(request, 'create_customer.html', context)
+@method_decorator(login_required, name='dispatch')
+class CustomerCreateView(CreateView):
+    model = Customer
+    form_class = CustomerForm
+    template_name = 'create_customer.html'
+    success_url = reverse_lazy('customer_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #purchase orders
-@login_required
+@method_decorator(login_required, name='dispatch')
 class PurchaseOrderListView(ListView):
     model = PurchaseOrder
     template_name = 'purchase_order_list.html'
     context_object_name = 'purchase_order'
 
-@login_required
-def create_purchase_order(request):
-    if request.method == 'POST':
-        form = PurchaseOrderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('purchase_order_list')  
-    else:
-        form = PurchaseOrderForm()
-    
-    context = {'form': form}
-    return render(request, 'create_purchase_order.html', context)
+@method_decorator(login_required, name='dispatch')
+class PurchaseOrderCreateView(CreateView):
+    model = PurchaseOrder
+    form_class = PurchaseOrderForm
+    template_name = 'create_purchase_order.html'
+    success_url = reverse_lazy('purchase_order_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #sales order
-@login_required
+@method_decorator(login_required, name='dispatch')
 class SalesOrderListView(ListView):
     model = SalesOrder
     template_name = 'sales_order_list.html'
     context_object_name = 'sales_order'
 
-@login_required
-def create_sales_order(request):
-    if request.method == 'POST':
-        form = SalesOrder(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('sales_order_list')  
-    else:
-        form = SalesOrderForm()
-    
-    context = {'form': form}
-    return render(request, 'create_sales_order.html', context)
+@method_decorator(login_required, name='dispatch')
+class SalesOrderCreateView(CreateView):
+    model = SalesOrder
+    form_class = SalesOrderForm
+    template_name = 'create_sales_order.html'
+    success_url = reverse_lazy('sales_order_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #Bill
-@login_required
+@method_decorator(login_required, name='dispatch')
 class BillListView(ListView):
     model = Bill
     template_name = 'bill_list.html'
     context_object_name = 'bill'
 
-@login_required
-def create_bill(request):
-    if request.method == 'POST':
-        form = BillForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('bill_list')  
-    else:
-        form = BillForm()
-    
-    context = {'form': form}
-    return render(request, 'create_bill.html', context)
+@method_decorator(login_required, name='dispatch')
+class BillCreateView(CreateView):
+    model = Bill
+    form_class = BillForm
+    template_name = 'create_bill.html'
+    success_url = reverse_lazy('bill_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #invoice
-@login_required
+@method_decorator(login_required, name='dispatch')
 class InvoiceListView(ListView):
     model = Invoice
     template_name = 'invoice_list.html'
     context_object_name = 'invoice'
 
-@login_required
-def create_invoice(request):
-    if request.method == 'POST':
-        form = InvoiceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('invoice_list')  
-    else:
-        form = InvoiceForm()
-    
-    context = {'form': form}
-    return render(request, 'create_invoice.html', context)
+@method_decorator(login_required, name='dispatch')
+class InvoiceCreateView(CreateView):
+    model = Invoice
+    form_class = InvoiceForm
+    template_name = 'create_invoice.html'
+    success_url = reverse_lazy('invoice_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #package
-@login_required
+@method_decorator(login_required, name='dispatch')
 class PackageListView(ListView):
     model = Package
     template_name = 'package_list.html'
     context_object_name = 'package'
 
-@login_required
-def create_package(request):
-    if request.method == 'POST':
-        form = PackageForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('package_list')  
-    else:
-        form = PackageForm()
-    
-    context = {'form': form}
-    return render(request, 'create_package.html', context)
+@method_decorator(login_required, name='dispatch')
+class PackageCreateView(CreateView):
+    model = Package
+    form_class = PackageForm
+    template_name = 'create_package.html'
+    success_url = reverse_lazy('package_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 #carrier
-@login_required
+@method_decorator(login_required, name='dispatch')
 class CarrierListView(ListView):
     model = Carrier
     template_name = 'carrier_list.html'
     context_object_name = 'carrier'
 
-@login_required
-def create_carrier(request):
-    if request.method == 'POST':
-        form = CarrierForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('carrier_list')  
-    else:
-        form = CarrierForm()
-    
-    context = {'form': form}
-    return render(request, 'create_carrier.html', context)
+@method_decorator(login_required, name='dispatch')
+class CarrierCreateView(CreateView):
+    model = Carrier
+    form_class = CarrierForm
+    template_name = 'create_carrier.html'
+    success_url = reverse_lazy('carrier_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
