@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../inventory-management"
+		},
+		{
+			"path": "../../inventory frontend"
+		}
+	],
+	"settings": {}
+}

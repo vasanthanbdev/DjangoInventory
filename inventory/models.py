@@ -6,7 +6,7 @@ from .constants import *
 # Product and Item models
 class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(default=0.0)
     category = models.CharField(max_length=100, choices=CATEGORY, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     quantity = models.PositiveIntegerField(null=True)
@@ -27,9 +27,9 @@ class Item(models.Model):
 class Warehouse(models.Model):
     warehouse_number = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
     name = models.CharField(max_length=100, null=True)
+    contact = models.EmailField()
     city = models.CharField(max_length=100, null=True)
     address = models.TextField(null=True)
-    contact = models.EmailField()
     
     def __str__(self) -> str:
         return self.warehouse_number
@@ -39,7 +39,7 @@ class Warehouse(models.Model):
 class Vendor(models.Model):
     name = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, unique=True)  # Use CharField with max_length for email
-    phone = models.CharField(max_length=15)
+    contact = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
 
@@ -51,7 +51,7 @@ class Vendor(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, unique=True)  # Use CharField with max_length for email
-    phone = models.CharField(max_length=15)
+    contact = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
 
@@ -61,26 +61,46 @@ class Customer(models.Model):
 
 #Purchase order
 class PurchaseOrder(models.Model):
-    PurchaseOrdernumber = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
-    Vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
-    Warehouse = models.ForeignKey(Warehouse, on_delete=models.PROTECT)
-    order_date = models.DateField()
+    purchase_order_number = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
+    order_date = models.DateField(auto_now_add=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.PROTECT)
     delivery_date = models.DateField()
-    items = models.ManyToManyField(Item, through='PurchaseOrderItem')
-    item_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    products = models.ManyToManyField(Product, through='PurchaseOrderProduct')
+    total_no_products = models.PositiveIntegerField(default=0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     
-    def __str__(self) -> str:
-        return f"OrderNo : {self.PurchaseOrdernumber}"
+    def total_no_products_count(self):
+        return self.products.count()
+    
+    def total_price_calc(self):
+        total_price = 0
+        for purchase_order_product in self.products.all():
+            total_price += purchase_order_product.total_item_price
+        return total_price
 
-class PurchaseOrderItem(models.Model):
-    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity_ordered = models.PositiveIntegerField()
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    def save(self, *args, **kwargs):
+        self.total_no_products = self.total_no_products_count()
+        self.total_price = self.total_price_calc()
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Item: {self.item}, Quantity: {self.quantity_ordered}"
+        return f"Purchase Order No: {self.purchase_order_number}"
+
+class PurchaseOrderProduct(models.Model):
+    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
+    sno = models.PositiveIntegerField()
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(max_length=10, default=1)
+    total_item_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def total_item_price_clac(self):
+        return self.unit_price * self.quantity
+
+    def save(self, *args, **kwargs):
+        self.total_item_price = self.total_item_price_clac()
+        super().save(*args, **kwargs)
     
 
 #Sales order
@@ -94,8 +114,8 @@ class SalesOrder(models.Model):
     shipped = models.BooleanField()
     delivery_date = models.DateField()
     items = models.ManyToManyField(Item, through='SalesOrderItem')
-    item_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    item_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     
     def __str__(self) -> str:
         return f"OrderNo : {self.SalesOrdernumber}"
@@ -104,7 +124,7 @@ class SalesOrderItem(models.Model):
     SalesOrder = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity_ordered = models.PositiveIntegerField()
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def __str__(self):
         return f"Item: {self.item}, Quantity: {self.quantity_ordered}"

@@ -17,21 +17,21 @@ class ProductForm(forms.ModelForm):
 class WarehouseForm(forms.ModelForm):
     class Meta:
         model = Warehouse
-        fields = []
+        fields = ["name", "city", "address", "contact"]
 
 
 #vendors
 class VendorForm(forms.ModelForm):
     class Meta:
         model = Vendor
-        fields = []
+        fields = ["name", "email", "contact", "city", "address"]
         
 
 #customers
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = []
+        fields = ["name", "email", "contact", "city", "address"]
 
 #purchase_orders
 class PurchaseOrderForm(forms.ModelForm):
@@ -67,4 +67,4 @@ class PackageForm(forms.ModelForm):
 class CarrierForm(forms.ModelForm):
     class Meta:
         model = Carrier
-        fields = []
+        fields = ["name"]
