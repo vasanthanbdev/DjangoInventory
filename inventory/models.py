@@ -114,7 +114,7 @@ class SalesOrder(models.Model):
     packed = models.BooleanField()
     shipped = models.BooleanField()
     delivery_date = models.DateField()
-    items = models.ManyToManyField(Item, through='SalesOrderItem')
+    items = models.ManyToManyField(Product, through='SalesOrderItem')
     item_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     
@@ -123,7 +123,7 @@ class SalesOrder(models.Model):
 
 class SalesOrderItem(models.Model):
     SalesOrder = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_ordered = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
@@ -139,7 +139,7 @@ class Bill(models.Model):
     Warehouse = models.ForeignKey(Warehouse, on_delete=models.PROTECT)
     bill_date = models.DateField(auto_now_add=True)
     due_date = models.DateField(auto_now_add=True)
-    items = models.ManyToManyField(Item, through='BillItem')
+    items = models.ManyToManyField(Product, through='BillItem')
     item_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     
@@ -148,12 +148,12 @@ class Bill(models.Model):
 
 class BillItem(models.Model):
     Bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_ordered = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Item: {self.item}, Quantity: {self.quantity_ordered}"
+        return f"Product: {self.item}, Quantity: {self.quantity_ordered}"
     
       
 #Invoice
@@ -163,7 +163,7 @@ class Invoice(models.Model):
     SalesOrder = models.ForeignKey(SalesOrder, on_delete=models.PROTECT)
     invoice_date = models.DateField(auto_now_add=True)
     due_date = models.DateField(auto_now_add=True)
-    items = models.ManyToManyField(Item, through='InvoiceItem')
+    items = models.ManyToManyField(Product, through='InvoiceItem')
     item_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     
@@ -172,7 +172,7 @@ class Invoice(models.Model):
 
 class InvoiceItem(models.Model):
     Invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_ordered = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
