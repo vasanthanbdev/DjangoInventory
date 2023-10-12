@@ -12,15 +12,16 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(null=True)
     reorder_level = models.PositiveIntegerField(default=10)
     
+    
     def __str__(self) -> str:
         return self.name
     
-class Item(models.Model):
-    serial_number = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+# class Item(models.Model):
+#     serial_number = models.CharField(max_length=50, unique=True, default=uuid.uuid4().hex[:12].upper())
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
-    def __str__(self) -> str:
-        return f"{self.product} - Serial Number: {self.serial_number}"
+#     def __str__(self) -> str:
+#         return f"{self.product} - Serial Number: {self.serial_number}"
     
 
 #warehouse model 

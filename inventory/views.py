@@ -113,8 +113,8 @@ class SalesOrderCreateView(CreateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-
-
+    
+    
 #Bill
 @method_decorator(login_required, name='dispatch')
 class BillListView(ListView):
