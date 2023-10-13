@@ -151,37 +151,37 @@ class InvoiceCreateView(CreateView):
         return super().form_valid(form)
 
 
-#package
-@method_decorator(login_required, name='dispatch')
-class PackageListView(ListView):
-    model = Package
-    template_name = 'package_list.html'
-    context_object_name = 'package'
+# #package
+# @method_decorator(login_required, name='dispatch')
+# class PackageListView(ListView):
+#     model = Package
+#     template_name = 'package_list.html'
+#     context_object_name = 'package'
 
-@method_decorator(login_required, name='dispatch')
-class PackageCreateView(CreateView):
-    model = Package
-    form_class = PackageForm
-    template_name = 'create_package.html'
-    success_url = reverse_lazy('package_list')
+# @method_decorator(login_required, name='dispatch')
+# class PackageCreateView(CreateView):
+#     model = Package
+#     form_class = PackageForm
+#     template_name = 'create_package.html'
+#     success_url = reverse_lazy('package_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
-#carrier
-@method_decorator(login_required, name='dispatch')
-class CarrierListView(ListView):
-    model = Carrier
-    template_name = 'carrier_list.html'
-    context_object_name = 'carrier'
+# #carrier
+# @method_decorator(login_required, name='dispatch')
+# class CarrierListView(ListView):
+#     model = Carrier
+#     template_name = 'carrier_list.html'
+#     context_object_name = 'carrier'
 
-@method_decorator(login_required, name='dispatch')
-class CarrierCreateView(CreateView):
-    model = Carrier
-    form_class = CarrierForm
-    template_name = 'create_carrier.html'
-    success_url = reverse_lazy('carrier_list')
+# @method_decorator(login_required, name='dispatch')
+# class CarrierCreateView(CreateView):
+#     model = Carrier
+#     form_class = CarrierForm
+#     template_name = 'create_carrier.html'
+#     success_url = reverse_lazy('carrier_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)

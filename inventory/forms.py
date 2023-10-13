@@ -57,14 +57,14 @@ class BillForm(forms.ModelForm):
         model = Bill
         fields = []
         
-#packages
-class PackageForm(forms.ModelForm):
-    class Meta:
-        model = Package
-        fields = []
+# #packages
+# class PackageForm(forms.ModelForm):
+#     class Meta:
+#         model = Package
+#         fields = []
 
-#carrier
-class CarrierForm(forms.ModelForm):
-    class Meta:
-        model = Carrier
-        fields = ["name"]
+# #carrier
+# class CarrierForm(forms.ModelForm):
+#     class Meta:
+#         model = Carrier
+#         fields = ["name"]

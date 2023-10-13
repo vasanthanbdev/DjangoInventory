@@ -27,10 +27,10 @@ urlpatterns = [
     path('bills/', BillListView.as_view(), name='bill_list'),
      path('bills/create/', BillCreateView.as_view(), name='create_bill'),
 
-    path('packages/', PackageListView.as_view(), name='package_list'),
-    path('packages/create/', PackageCreateView.as_view(), name='create_package'),
+    # path('packages/', PackageListView.as_view(), name='package_list'),
+    # path('packages/create/', PackageCreateView.as_view(), name='create_package'),
     
-    path('carriers/', CarrierListView.as_view(), name='carrier_list'),
-    path('carriers/create/', CarrierCreateView.as_view(), name='create_carrier'),
+    # path('carriers/', CarrierListView.as_view(), name='carrier_list'),
+    # path('carriers/create/', CarrierCreateView.as_view(), name='create_carrier'),
 ]
 

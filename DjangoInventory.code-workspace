@@ -1,20 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../inventory-management"
-		},
-		{
-			"path": "../../inventory frontend"
-		},
-		{
-			"path": "../Django-Bootcamp-1"
-		},
-		{
-			"path": "../Inventory-Management-System"
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }

@@ -2,14 +2,20 @@
 CATEGORY = (
     ('Stationary', 'Stationary'),
     ('Electronics', 'Electronics'),
-    ('Food', 'Food')
+)
+
+#item status
+ITEM_STATUS = (
+    ('', ''),
+    
 )
 
 #sales
 SALES_STATUS = (
-    ('Pending', 'Pending'),
     ('Confirmed', 'Confirmed'),
-    ('Closed', 'Closed')
+    ('Packed', 'Packed'),
+    ('Shipped', 'Shipped'),
+    ('Invoiced', 'Invoiced'),
 )
 
 #package
