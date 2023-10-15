@@ -80,75 +80,75 @@ class CustomerCreateView(CreateView):
 
 
 #purchase orders
-@method_decorator(login_required, name='dispatch')
-class PurchaseOrderListView(ListView):
-    model = PurchaseOrder
-    template_name = 'purchase_order_list.html'
-    context_object_name = 'purchase_order'
+# @method_decorator(login_required, name='dispatch')
+# class PurchaseOrderListView(ListView):
+#     model = PurchaseOrder
+#     template_name = 'purchase_order_list.html'
+#     context_object_name = 'purchase_order'
 
-@method_decorator(login_required, name='dispatch')
-class PurchaseOrderCreateView(CreateView):
-    model = PurchaseOrder
-    form_class = PurchaseOrderForm
-    template_name = 'create_purchase_order.html'
-    success_url = reverse_lazy('purchase_order_list')
+# @method_decorator(login_required, name='dispatch')
+# class PurchaseOrderCreateView(CreateView):
+#     model = PurchaseOrder
+#     form_class = PurchaseOrderForm
+#     template_name = 'create_purchase_order.html'
+#     success_url = reverse_lazy('purchase_order_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
-#sales order
-@method_decorator(login_required, name='dispatch')
-class SalesOrderListView(ListView):
-    model = SalesOrder
-    template_name = 'sales_order_list.html'
-    context_object_name = 'sales_order'
+# #sales order
+# @method_decorator(login_required, name='dispatch')
+# class SalesOrderListView(ListView):
+#     model = SalesOrder
+#     template_name = 'sales_order_list.html'
+#     context_object_name = 'sales_order'
 
-@method_decorator(login_required, name='dispatch')
-class SalesOrderCreateView(CreateView):
-    model = SalesOrder
-    form_class = SalesOrderForm
-    template_name = 'create_sales_order.html'
-    success_url = reverse_lazy('sales_order_list')
+# @method_decorator(login_required, name='dispatch')
+# class SalesOrderCreateView(CreateView):
+#     model = SalesOrder
+#     form_class = SalesOrderForm
+#     template_name = 'create_sales_order.html'
+#     success_url = reverse_lazy('sales_order_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
     
     
-#Bill
-@method_decorator(login_required, name='dispatch')
-class BillListView(ListView):
-    model = Bill
-    template_name = 'bill_list.html'
-    context_object_name = 'bill'
+# #Bill
+# @method_decorator(login_required, name='dispatch')
+# class BillListView(ListView):
+#     model = Bill
+#     template_name = 'bill_list.html'
+#     context_object_name = 'bill'
 
-@method_decorator(login_required, name='dispatch')
-class BillCreateView(CreateView):
-    model = Bill
-    form_class = BillForm
-    template_name = 'create_bill.html'
-    success_url = reverse_lazy('bill_list')
+# @method_decorator(login_required, name='dispatch')
+# class BillCreateView(CreateView):
+#     model = Bill
+#     form_class = BillForm
+#     template_name = 'create_bill.html'
+#     success_url = reverse_lazy('bill_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
-#invoice
-@method_decorator(login_required, name='dispatch')
-class InvoiceListView(ListView):
-    model = Invoice
-    template_name = 'invoice_list.html'
-    context_object_name = 'invoice'
+# #invoice
+# @method_decorator(login_required, name='dispatch')
+# class InvoiceListView(ListView):
+#     model = Invoice
+#     template_name = 'invoice_list.html'
+#     context_object_name = 'invoice'
 
-@method_decorator(login_required, name='dispatch')
-class InvoiceCreateView(CreateView):
-    model = Invoice
-    form_class = InvoiceForm
-    template_name = 'create_invoice.html'
-    success_url = reverse_lazy('invoice_list')
+# @method_decorator(login_required, name='dispatch')
+# class InvoiceCreateView(CreateView):
+#     model = Invoice
+#     form_class = InvoiceForm
+#     template_name = 'create_invoice.html'
+#     success_url = reverse_lazy('invoice_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
 # #package
