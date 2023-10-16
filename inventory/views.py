@@ -6,77 +6,90 @@ from django.urls import reverse_lazy
 from .forms import *
 from .models import *
 
+from .serializers import *
+from rest_framework import generics
 
-# Product views
-@method_decorator(login_required, name='dispatch')
-class ProductListView(ListView):
-    model = Product
-    template_name = 'product_list.html'
-    context_object_name = 'products'
+#product views
+class ProductList(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+# # Product views
+# @method_decorator(login_required, name='dispatch')
+# class ProductListView(ListView):
+#     model = Product
+#     template_name = 'product_list.html'
+#     context_object_name = 'products'
     
-@method_decorator(login_required, name='dispatch')
-class ProductCreateView(CreateView):
-    model = Product
-    form_class = ProductForm
-    template_name = 'create_product.html'
-    success_url = reverse_lazy('product_list')
+# @method_decorator(login_required, name='dispatch')
+# class ProductCreateView(CreateView):
+#     model = Product
+#     form_class = ProductForm
+#     template_name = 'create_product.html'
+#     success_url = reverse_lazy('product_list')
     
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
-# warehouse
-@method_decorator(login_required, name='dispatch')
-class WarehouseListView(ListView):
-    model = Warehouse
-    template_name = 'warehouse_list.html'
-    context_object_name = 'warehouses'
+# # warehouse
+# @method_decorator(login_required, name='dispatch')
+# class WarehouseListView(ListView):
+#     model = Warehouse
+#     template_name = 'warehouse_list.html'
+#     context_object_name = 'warehouses'
 
-@method_decorator(login_required, name='dispatch')
-class WarehouseCreateView(CreateView):
-    model = Warehouse
-    form_class = WarehouseForm
-    template_name = 'create_warehouse.html'
-    success_url = reverse_lazy('warehouse_list')
+# @method_decorator(login_required, name='dispatch')
+# class WarehouseCreateView(CreateView):
+#     model = Warehouse
+#     form_class = WarehouseForm
+#     template_name = 'create_warehouse.html'
+#     success_url = reverse_lazy('warehouse_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
     
 
-#vendors
-@method_decorator(login_required, name='dispatch')
-class VendorListView(ListView):
-    model = Vendor
-    template_name = 'vendor_list.html'
-    context_object_name = 'vendors'
+# #vendors
+# @method_decorator(login_required, name='dispatch')
+# class VendorListView(ListView):
+#     model = Vendor
+#     template_name = 'vendor_list.html'
+#     context_object_name = 'vendors'
 
-@method_decorator(login_required, name='dispatch')
-class VendorCreateView(CreateView):
-    model = Vendor
-    form_class = VendorForm
-    template_name = 'create_vendor.html'
-    success_url = reverse_lazy('vendor_list')
+# @method_decorator(login_required, name='dispatch')
+# class VendorCreateView(CreateView):
+#     model = Vendor
+#     form_class = VendorForm
+#     template_name = 'create_vendor.html'
+#     success_url = reverse_lazy('vendor_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
-#customer
-@method_decorator(login_required, name='dispatch')
-class CustomerListView(ListView):
-    model = Customer
-    template_name = 'customer_list.html'
-    context_object_name = 'customer'
+# #customer
+# @method_decorator(login_required, name='dispatch')
+# class CustomerListView(ListView):
+#     model = Customer
+#     template_name = 'customer_list.html'
+#     context_object_name = 'customer'
     
-@method_decorator(login_required, name='dispatch')
-class CustomerCreateView(CreateView):
-    model = Customer
-    form_class = CustomerForm
-    template_name = 'create_customer.html'
-    success_url = reverse_lazy('customer_list')
+# @method_decorator(login_required, name='dispatch')
+# class CustomerCreateView(CreateView):
+#     model = Customer
+#     form_class = CustomerForm
+#     template_name = 'create_customer.html'
+#     success_url = reverse_lazy('customer_list')
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
 #purchase orders
