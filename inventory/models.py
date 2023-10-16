@@ -1,12 +1,11 @@
 from django.db import models
-from uuid import uuid4
 from .constants import *
 from django.db.models import Sum, F
 from django.utils import timezone
 
 #Vendor model
 class Vendor(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=10, primary_key=True, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.CharField(max_length=100, null=True, blank=True)  
     contact = models.CharField(max_length=15, null=True, blank=True)
@@ -16,19 +15,17 @@ class Vendor(models.Model):
     class Meta:
         ordering = ['name']
     
-    class VendorManager(models.Manager):
-        def by_name(self, name):
-            return self.filter(name__icontains=name)
-        
-    
-    # def generate_serial_number(prefix='VD-', start_number=1):
-    #     serial_number = prefix + str(start_number).zfill(7)
-    #     start_number += 1
-    #     return serial_number
-    
-    # def save(self, *args, **kwargs):
-    #     self.id = self.generate_serial_number()
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Generate ID once
+            last_po = Vendor.objects.order_by('id').last()
+            if not last_po:
+                new_id = 'VD-000001'
+            else:
+                id_int = int(last_po.id.split('-')[-1]) 
+                new_id = f'VD-{str(id_int+1).zfill(6)}'
+            self.id = new_id
+        super().save(*args, **kwargs)
     
     def __str__(self) -> str:
         return self.name
@@ -38,30 +35,30 @@ class Vendor(models.Model):
 
 # Product and Item models
 class Product(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=10, primary_key=True, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(max_length=1000, blank=True, default='')
     category = models.CharField(max_length=100, choices=CATEGORY, null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     quantity = models.PositiveIntegerField(null=True, blank=True)
-    preferred_vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT, null=True, blank=True)
+    preferred_vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
     reorder_level = models.PositiveIntegerField(default=2)
     
     class Meta:
         ordering = ['name']
         
-    class ProductManager(models.Manager):
-        def by_name(self, name):
-            return self.filter(name__icontains=name)
-        
-    # def generate_serial_number(prefix='PR-', start_number=1):
-    #     serial_number = prefix + str(start_number).zfill(7)
-    #     start_number += 1
-    #     return serial_number
-    
-    # def save(self, *args, **kwargs):
-    #     self.id = self.generate_serial_number()
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Generate ID once
+            last_po = Product.objects.order_by('id').last()
+            if not last_po:
+                new_id = 'PR-000001'
+            else:
+                id_int = int(last_po.id.split('-')[-1]) 
+                new_id = f'PR-{str(id_int+1).zfill(6)}'
+            self.id = new_id
+        super().save(*args, **kwargs)
+
     
     def __str__(self) -> str:
         return self.name
@@ -85,7 +82,7 @@ class Product(models.Model):
 
 #warehouse model 
 class Warehouse(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=10, primary_key=True, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.CharField(max_length=100, null= True, blank=True)  
     contact = models.CharField(max_length=15, null=True, blank=True)
@@ -94,54 +91,56 @@ class Warehouse(models.Model):
     
     class Meta:
         ordering = ['name']
-        
-    class WarehouseManager(models.Manager):
-        def by_name(self, name):
-            return self.filter(name__icontains=name)
     
-    # def generate_serial_number(prefix='WH-', start_number=1):
-    #     serial_number = prefix + str(start_number).zfill(7)
-    #     start_number += 1
-    #     return serial_number
-    
-    # def save(self, *args, **kwargs):
-    #     self.id = self.generate_serial_number()
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Generate ID once
+            last_po = Warehouse.objects.order_by('id').last()
+            if not last_po:
+                new_id = 'WH-000001'
+            else:
+                id_int = int(last_po.id.split('-')[-1]) 
+                new_id = f'WH-{str(id_int+1).zfill(6)}'
+            self.id = new_id
+        super().save(*args, **kwargs)
     
     def __str__(self) -> str:
         return self.name
 
 #customer model
-class Customer(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.CharField(max_length=100, null=True, blank=True)  
-    contact = models.CharField(max_length=15, null=True, blank=True)
-    city = models.CharField(max_length=50, null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
+# class Customer(models.Model):
+#     id = models.CharField(max_length=10, primary_key=True, editable=False)
+#     name = models.CharField(max_length=100, null=True, blank=True)
+#     email = models.CharField(max_length=100, null=True, blank=True)  
+#     contact = models.CharField(max_length=15, null=True, blank=True)
+#     city = models.CharField(max_length=50, null=True, blank=True)
+#     address = models.TextField(null=True, blank=True)
     
-    class Meta:
-        ordering = ['name']
+#     class Meta:
+#         ordering = ['name']
         
-    class CustomerManager(models.Manager):
-        def by_name(self, name):
-            return self.filter(name__icontains=name)
+#     class CustomerManager(models.Manager):
+#         def by_name(self, name):
+#             return self.filter(name__icontains=name)
     
-    # def generate_serial_number(prefix='CU-', start_number=1):
-    #     serial_number = prefix + str(start_number).zfill(7)
-    #     start_number += 1
-    #     return serial_number
-    
-    # def save(self, *args, **kwargs):
-    #     self.id = self.generate_serial_number()
-    #     super().save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         if not self.id:
+#             # Generate ID once
+#             last_po = Customer.objects.order_by('id').last()
+#             if not last_po:
+#                 new_id = 'CU-000001'
+#             else:
+#                 id_int = int(last_po.id.split('-')[-1]) 
+#                 new_id = f'CU-{str(id_int+1).zfill(6)}'
+#             self.id = new_id
+#         super().save(*args, **kwargs)
 
-    def __str__(self) -> str:
-        return self.name
+#     def __str__(self) -> str:
+#         return self.name
 
 #Purchase order
 # class PurchaseOrder(models.Model):
-#     id = models.CharField(max_length=7, primary_key=True, unique=True, default='PO-'+str(uuid4()).split('-')[1])
+#     id = models.CharField(max_length=10, primary_key=True, editable=False)
 #     order_date = models.DateField(default=timezone.now)
 #     delivery_date = models.DateField()
 #     vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
@@ -149,7 +148,21 @@ class Customer(models.Model):
 #     products = models.ManyToManyField(Product, through='PurchaseOrderItem')
 #     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     
+#     class Meta:
+#         ordering = ['-order_date']
+    
 #     def save(self, *args, **kwargs):
+#         if not self.id:
+#             # Generate ID once
+#             last_po = PurchaseOrder.objects.order_by('id').last()
+#             if not last_po:
+#                 new_id = 'PO-000001'
+#             else:
+#                 id_int = int(last_po.id.split('-')[-1]) 
+#                 new_id = f'PO-{str(id_int+1).zfill(6)}'
+#             self.id = new_id
+        
+#         #total price calc
 #         self.total_price = self.products.aggregate(
 #             total_price=Sum(F('purchaseorderitem__total_item_price'))
 #         )['total_price'] or 0.0

@@ -5,7 +5,7 @@ admin.site.register(Vendor)
 admin.site.register(Product)
 # admin.site.register(Item)
 admin.site.register(Warehouse)
-admin.site.register(Customer)
+# admin.site.register(Customer)
 
 # admin.site.register(PurchaseOrder)
 # admin.site.register(PurchaseOrderItem)

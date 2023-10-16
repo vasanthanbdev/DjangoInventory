@@ -3,17 +3,17 @@ from .views import *
 
 
 urlpatterns = [
-    path('products/', ProductListView.as_view(), name='product_list'),
-    path('products/create/', ProductCreateView.as_view(), name='create_product'),
+    path('products/', ProductList.as_view(), name='product_list'),
+    path('products/<int:pk>/', ProductDetail.as_view(), name='create_product'),
 
-    path('warehouses/', WarehouseListView.as_view(), name='warehouse_list'),
-    path('warehouses/create/', WarehouseCreateView.as_view(), name='create_warehouse'),
+    # path('warehouses/', WarehouseListView.as_view(), name='warehouse_list'),
+    # path('warehouses/create/', WarehouseCreateView.as_view(), name='create_warehouse'),
 
-    path('vendors/', VendorListView.as_view(), name='vendor_list'),
-    path('vendors/create/', VendorCreateView.as_view(), name='create_vendor'),
+    # path('vendors/', VendorListView.as_view(), name='vendor_list'),
+    # path('vendors/create/', VendorCreateView.as_view(), name='create_vendor'),
 
-    path('customers/', CustomerListView.as_view(), name='customer_list'),
-    path('customers/create/', CustomerCreateView.as_view(), name='create_customer'),
+    # path('customers/', CustomerListView.as_view(), name='customer_list'),
+    # path('customers/create/', CustomerCreateView.as_view(), name='create_customer'),
     
     # path('purchase_orders/', PurchaseOrderListView.as_view(), name='purchase_order_list'),
     # path('purchase_orders/create/', PurchaseOrderCreateView.as_view(), name='create_purchase_order'),
